@@ -1,0 +1,57 @@
+body {
+    background: #ED1848;
+    color: white;
+}
+
+.row {
+    padding: 25px 0;
+}
+
+.header {
+    text-align: center;
+}
+
+.header i {
+    font-size: 0.7em;
+}
+
+.header a {
+    text-decoration: none;
+    color: white;
+}
+
+.header a:hover {
+    text-shadow: rgba(0, 0, 0, 0.2) 0px 3px;
+}
+
+input {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    box-shadow: none;
+    color: white;
+    border: 0;
+    padding: 5px;
+}
+
+.btn-machi {
+    color: white;
+    font-weight: bold;
+    background-image: linear-gradient(to bottom, #EA0536, #911832);
+}
+
+
+.btn-machi:hover {
+    color: white;
+    box-shadow: rgba(255, 255, 255, 0.0980392) 0px 1px 0px 0px inset;
+    background-image: linear-gradient(to bottom, red, #911832);
+}
+
+.btn-machi:focus, .btn-machi:active {
+    color: white;
+    background: #EA0536;
+}
+
+.footer {
+    text-align: right;
+    margin-top: 60px;
+}

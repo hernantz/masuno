@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html ng-app="MasUnoApp">
+  <head>
+    <title>+1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <script src="js/angular.min.js"></script>
+    <script src="js/almuerzo.js"></script>
+  </head>
+  <body ng-controller="Almuerzo" data-ng-init="init()">
+
+    <div class="container">
+      <div class="header">
+        <h2><a href="index.html"><i class="glyphicon glyphicon-plus"></i> 1</a></h2>
+      </div>
+
+      <div class="row">
+        <h3>Comidas</h3>
+        
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Precio</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="comida in comidas">
+              <td><input placeholder="Comida" ng-model="comida.name"></td>
+              <td><input type="number" ng-model="comida.cost"></td>
+              <td><button ng-click="menosComida($index)" type="button" class="close" aria-hidden="true">&times;</button></td>
+            </tr>
+            <tr>
+              <td><strong>Total</strong></td>
+              <td>{{ costoTotal() }}</td>
+              <td></td>
+            </tr>
+          <tabody>
+        </table>
+        <button ng-click="masComida()" class="btn btn-default btn-machi btn-sm pull-right"><span class="glyphicon glyphicon-plus"></span> Moar!</button>
+        </div>
+         
+        <div class="row">
+        <h3>Comensales</h3>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th ng-repeat="comida in comidas">{{ comida.name }}</th>
+              <th>A pagar</th><th>Pagado</th><th>Vuelto</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="comensal in comensales">
+              <td><input placeholder="Comensal" ng-model="comensal.name"></td>
+              <td ng-repeat="comida in comidas"><input type="checkbox" ng-model="comensal.comidas[comida.name]"></td>
+              <td>{{ aPagar($index) }}</td>
+              <td><input type="number" ng-model="comensal.paid"></td>
+              <td>{{ comensal.paid - aPagar($index)}}</td>
+              <td><button ng-click="menosComensales($index)" type="button" class="close" aria-hidden="true">&times;</button></td>
+            </tr>
+            <tr>
+              <td><strong data-toggle="tooltip" data-placement="bottom" title="Pesos Por Pera">ppp</strong></td>
+              <td ng-repeat="comida in comidas">{{ precioPorPera($index) }}</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          <tabody>
+        </table>
+
+        <button ng-click="masComensales()" class="btn btn-default btn-machi btn-sm pull-right"><span class="glyphicon glyphicon-plus"></span> 1</button>
+      </div>
+
+      <div class="row">
+        <button ng-click="guardar()" class="btn btn-default btn-machi"><i class="glyphicon glyphicon-floppy-disk"></i> Guardar</button>
+        <a ng-show="mostrarCompartir()" target="_blank" href="http://tinyurl.com/api-create.php?url={{ compartirUrl() | escape }}" class="btn btn-default btn-machi"><i class="glyphicon glyphicon-share"></i> Compartir</a>
+      </div>
+    </div>
+
+    <div class="container footer">
+      <p><i class="glyphicon glyphicon-leaf" tooltip="" data-toggle="tooltip" data-placement="top" title="Veganos al poder!"></i></p> 
+    </div>
+
+    <script src="js/jquery-2.0.3.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</script>
+  </body>
+</html>
