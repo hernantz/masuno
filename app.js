@@ -4,7 +4,6 @@ $(function () {
   'use strict';
   App.thingsData = [{"name":"Sandwich de Bondiola", "cost":113.25}, {"name":"Gaseosa", "cost":25}];
   App.pplData = [{"name":"e_chango", "paid":100, "ownThings":["Gaseosa"]}, {"name":"j2gatti", "paid":50, "ownThings":["Gaseosa"]}, {"name":"pdelboca", "paid":0}];
-  App.version = 0;
 
   App.Things = Backbone.Collection.extend({
     model: Backbone.Model.extend({
@@ -22,14 +21,13 @@ $(function () {
   App.things = new App.Things(App.thingsData);
 
   App.sum = function (list) { return _.reduce(list, function (memo, num) { return memo + num; }, 0); };
-  App.title = function () { };
+  App.title = function () { return App.things.pluck('name').join(', '); };
   App.dec = function (num) { return parseFloat(num.toFixed(2)) };
   App.ppp = function (thing) {
     var n = 0;
     App.ppl.each(function (p) { if (thing.containedIn(p.get('ownThings'))) { n++; } });
     return n ? App.dec(thing.get('cost') / n) : 0;
   };
-  
   App.toPay = function (p) {
     var total = 0;
     App.things.each(function (thing) {
@@ -100,6 +98,12 @@ $(function () {
     onRender: function () { App.pplData = App.ppl.toJSON(); App.thingsData = App.things.toJSON(); }
   });
 
+  App.TitleView = Backbone.View.extend({
+    el: $('title'),
+    initialize: function () { this.listenTo(App.peopleView, 'render', this.render); },
+    render: function () { this.$el.text(App.title() + ' | +1'); }
+  });
+
   App.ShareBtn = Backbone.View.extend({
     el: $('#share'),
     initialize: function () { this.listenTo(App.peopleView, 'render', this.render); },
@@ -111,6 +115,7 @@ $(function () {
 
   App.thingsView = new App.ThingsView().render();
   App.peopleView = new App.PeopleView().render();
-  App.shareBtn = new App.ShareBtn().render();
+  new App.ShareBtn();
+  new App.TitleView();
   $('.tt').tooltip();
 });
