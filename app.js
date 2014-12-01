@@ -18,7 +18,6 @@ $(function () {
   App.things = new App.Things([{}]);
 
   App.sum = function (list) { return _.reduce(list, function (memo, num) { return memo + num; }, 0); };
-  App.title = function () { return App.things.pluck('name').join(', '); };
   App.dec = function (num) { return parseFloat(num.toFixed(2)) };
   App.ppp = function (thing) {
     var n = 0;
@@ -95,12 +94,6 @@ $(function () {
     onRender: function () { App.pplData = App.ppl.toJSON(); App.thingsData = App.things.toJSON(); }
   });
 
-  App.TitleView = Backbone.View.extend({
-    el: $('title'),
-    initialize: function () { this.listenTo(App.peopleView, 'render', this.render); },
-    render: function () { this.$el.text(App.title() + ' | +1'); }
-  });
-
   App.ShareBtn = Backbone.View.extend({
     el: $('#share'),
     initialize: function () { this.listenTo(App.peopleView, 'render', this.render); },
@@ -113,6 +106,5 @@ $(function () {
   App.thingsView = new App.ThingsView().render();
   App.peopleView = new App.PeopleView().render();
   new App.ShareBtn();
-  new App.TitleView();
   $('.tt').tooltip();
 });
