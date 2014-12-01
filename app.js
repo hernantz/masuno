@@ -1,9 +1,6 @@
-window.App = {};
-
 $(function () {
   'use strict';
-  App.thingsData = [{"name":"Sandwich de Bondiola", "cost":113.25}, {"name":"Gaseosa", "cost":25}];
-  App.pplData = [{"name":"e_chango", "paid":100, "ownThings":["Gaseosa"]}, {"name":"j2gatti", "paid":50, "ownThings":["Gaseosa"]}, {"name":"pdelboca", "paid":0}];
+  window.App = {};
 
   App.Things = Backbone.Collection.extend({
     model: Backbone.Model.extend({
@@ -17,8 +14,8 @@ $(function () {
     model: Backbone.Model.extend({ defaults: { 'name': '', 'paid': 0, ownThings: [] } }),
   });
   
-  App.ppl = new App.People(App.pplData);
-  App.things = new App.Things(App.thingsData);
+  App.ppl = new App.People([{}]);
+  App.things = new App.Things([{}]);
 
   App.sum = function (list) { return _.reduce(list, function (memo, num) { return memo + num; }, 0); };
   App.title = function () { return App.things.pluck('name').join(', '); };
