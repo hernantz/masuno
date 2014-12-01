@@ -72,7 +72,7 @@ $(function () {
     el: '#thingstable',
     template: '#thingstable-tpl',
     events: {'click .btn-machi': 'add'},
-    collectionEvents: {'change': 'setTotal', 'remove': 'render'},
+    collectionEvents: {'change': 'setTotal', 'reset remove': 'render'},
     setTotal: function () { this.$('.total').text(this.collection.total()); },
     add: function () { this.collection.add({}); },
     onRender: function () { this.setTotal(); }
@@ -86,7 +86,7 @@ $(function () {
     template: '#ppltable-tpl',
     events: {'click .btn-machi': 'add'},
     collectionEvents: {'remove change': 'render'},
-    initialize: function () { this.listenTo(App.things, 'add change remove', this.render); },
+    initialize: function () { this.listenTo(App.things, 'reset add change remove', this.render); },
     setTotal: function () { this.$('.total').text(this.collection.total()); },
     add: function () { this.collection.add({}); },
     serializeData: function () { return _.extend({ things: App.things }, this.collection.toJSON()); },

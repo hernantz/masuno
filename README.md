@@ -25,4 +25,4 @@ either.
 
 
 I decided to put an end to this experiment and leave the MarionetteJS version.
-[Click here for a demo](https://hernantz.github.com/masuno)
+[Click here for a demo](https://hernantz.github.com/masuno/)
