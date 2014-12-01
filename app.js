@@ -97,14 +97,29 @@ $(function () {
   App.ShareBtn = Backbone.View.extend({
     el: $('#share'),
     initialize: function () { this.listenTo(App.peopleView, 'render', this.render); },
-    render: function () {
-      var url = 'http://v.gd/create.php?format=simple&url=';// + App.base64();// + '&shorturl=' + App.title();
-      this.$el.attr('href', url);
+    render: function () { this.$el.attr('href', 'http://v.gd/create.php?format=simple&url=' + window.location); }
+  });
+
+  App.HashManager = Marionette.Controller.extend({
+    initialize: function () {
+      this.listenTo(App.peopleView, 'render', this.updateHash);
+      var parsed, hash = window.location.hash.charAt(0) === '#' ? window.location.hash.substring(1) : '';
+      if (!hash) { return; }
+      try {
+        parsed = JSON.parse(hash);
+        App.ppl.reset(parsed.ppl);
+        App.things.reset(parsed.things);
+      } catch (err) { console.error(err); }
+    },
+    updateHash: function () {
+      window.location.hash = '#' + JSON.stringify({ppl: App.ppl.toJSON(), things: App.things.toJSON()});
     }
   });
+
 
   App.thingsView = new App.ThingsView().render();
   App.peopleView = new App.PeopleView().render();
   new App.ShareBtn();
+  new App.HashManager();
   $('.tt').tooltip();
 });
