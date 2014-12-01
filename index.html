@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>+1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h2><a href="index.html"><i class="glyphicon glyphicon-plus"></i> 1</a></h2>
+      </div>
+
+      <div class="row" id="thingstable"> </div>
+      <div class="row" id="ppltable"> </div>
+
+      <div class="row">
+        <a id="share" href="#" target="_blank" class="btn btn-default btn-machi"><i class="glyphicon glyphicon-share"></i> Share</a>
+      </div>
+    </div>
+
+    <div class="container footer">
+      <p><i class="tt glyphicon glyphicon-leaf" data-toggle="tooltip" data-placement="top" title="Veganos al poder!"></i></p>
+    </div>
+
+    <script id="thingstable-tpl" type="text/template">
+      <h3>Things</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>$</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody> </tbody>
+        <tfoot>
+          <tr>
+            <td><strong>Total</strong></td>
+            <td class="total">0</td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+      <button class="btn btn-default btn-machi btn-sm pull-right"><span class="glyphicon glyphicon-plus"></span> Moar!</button>
+    </script>
+
+    <script id="thing-tpl" type="text/template">
+      <td><input placeholder="Something" class="name" value="<%= name %>" /></td>
+      <td><input type="number" class="cost" value="<%= cost %>" /></td>
+      <td><button type="button" class="close" aria-hidden="true">&times;</button></td>
+    </script>
+
+    <script id="ppltable-tpl" type="text/template">
+      <h3>People</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Nickname</th>
+            <% things.each(function (thing) { %> <th><%= thing.get('name') %></th> <% }) %>
+            <th>To Pay</th>
+            <th>Paid</th>
+            <th>Balance</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody> </tbody>
+        <tfoot>
+          <tr>
+            <td><strong class="tt" data-toggle="tooltip" data-placement="bottom" title="Pesos Por Pera">ppp</strong></td>
+            <% things.each(function (thing) { %> <td><%= ppp(thing) %></td> <% }) %>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+      <button class="btn btn-default btn-machi btn-sm pull-right"><span class="glyphicon glyphicon-plus"></span> 1</button>
+    </script>
+
+    <script id="ppl-tpl" type="text/template">
+      <td><input placeholder="Name" class="name" value="<%= name %>" /></td>
+      <% things.each(function (thing) { %>
+      <td><input type="checkbox" value="<%= thing.get('name') %>" <% if (thing.containedIn(ownThings)) { %> checked <% } %> /></td>
+      <% }) %>
+      <td><%= toPay %></td>
+      <td><input type="number" class="paid" value="<%= paid %>"></td>
+      <td><%= balance %></td>
+      <td><button type="button" class="close" aria-hidden="true">&times;</button></td>
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.marionette/2.2.2/backbone.marionette.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
