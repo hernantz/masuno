@@ -17,17 +17,25 @@ $(function () {
   App.ppl = new App.People([{}]);
   App.things = new App.Things([{}]);
 
-  App.sum = function (list) { return _.reduce(list, function (memo, num) { return memo + num; }, 0); };
-  App.dec = function (num) { return parseFloat(num.toFixed(2)) };
+  App.sum = function (list) {
+    return _.reduce(list, function (memo, num) { return memo + num; }, 0);
+  };
+  App.dec = function (num) {
+    return parseFloat(num.toFixed(2));
+  };
   App.ppp = function (thing) {
     var n = 0;
-    App.ppl.each(function (p) { if (thing.containedIn(p.get('ownThings'))) { n++; } });
+    App.ppl.each(function (p) {
+      if (thing.containedIn(p.get('ownThings'))) { n++; }
+    });
     return n ? App.dec(thing.get('cost') / n) : 0;
   };
   App.toPay = function (p) {
     var total = 0;
     App.things.each(function (thing) {
-      if (thing.containedIn(p.get('ownThings'))) { total += App.ppp(thing); }
+      if (thing.containedIn(p.get('ownThings'))) {
+        total += App.ppp(thing);
+      }
     });
     return total;
   };
@@ -35,10 +43,18 @@ $(function () {
   App.ThingRowView = Marionette.ItemView.extend({
     template: '#thing-tpl',
     tagName: 'tr',
-    events: {'click .close': 'rm', 'change input': 'update'},
-    rm: function () { return App.things.remove(this.model); },
+    events: {
+      'click .close': 'rm',
+      'change input': 'update'
+    },
+    rm: function () {
+      return App.things.remove(this.model);
+    },
     update: function () {
-      this.model.set({ 'name': this.$('.name').val(), 'cost': parseFloat(this.$('.cost').val()) });
+      this.model.set({
+        'name': this.$('.name').val(),
+        'cost': parseFloat(this.$('.cost').val())
+      });
     }
   });
 
@@ -51,7 +67,9 @@ $(function () {
     rm: function () { return this.collection.remove(this.model); },
     update: function () {
       var ownThings = [];
-      this.$('input[type="checkbox"]:checked').each(function () { ownThings.push(this.value); });
+      this.$('input[type="checkbox"]:checked').each(function () {
+        ownThings.push(this.value);
+      });
       this.model.set({
         'name': this.$('.name').val(),
         'paid': parseFloat(this.$('.paid').val()),
@@ -61,7 +79,8 @@ $(function () {
     serializeData: function () {
       var toPay = App.toPay(this.model);
       var bal = App.dec(this.model.get('paid') - toPay);
-      return _.extend({things: this.things, toPay: toPay, balance: bal}, this.model.toJSON());
+      var attrs = this.model.toJSON();
+      return _.extend({things: this.things, toPay: toPay, balance: bal}, attrs);
     },
   });
 
@@ -72,7 +91,10 @@ $(function () {
     el: '#thingstable',
     template: '#thingstable-tpl',
     events: {'click .btn-machi': 'add'},
-    collectionEvents: {'change': 'setTotal', 'reset remove': 'render'},
+    collectionEvents: {
+      'change': 'setTotal',
+      'reset remove': 'render'
+    },
     setTotal: function () { this.$('.total').text(this.collection.total()); },
     add: function () { this.collection.add({}); },
     onRender: function () { this.setTotal(); }
@@ -86,17 +108,30 @@ $(function () {
     template: '#ppltable-tpl',
     events: {'click .btn-machi': 'add'},
     collectionEvents: {'remove change': 'render'},
-    initialize: function () { this.listenTo(App.things, 'reset add change remove', this.render); },
-    setTotal: function () { this.$('.total').text(this.collection.total()); },
-    add: function () { this.collection.add({}); },
-    serializeData: function () { return _.extend({ things: App.things }, this.collection.toJSON()); },
+    initialize: function () {
+      this.listenTo(App.things, 'reset add change remove', this.render);
+    },
+    setTotal: function () {
+      this.$('.total').text(this.collection.total());
+    },
+    add: function () {
+      this.collection.add({});
+    },
+    serializeData: function () {
+      return _.extend({ things: App.things }, this.collection.toJSON());
+    },
     templateHelpers: { 'ppp': App.ppp },
-    onRender: function () { App.pplData = App.ppl.toJSON(); App.thingsData = App.things.toJSON(); }
+    onRender: function () {
+      App.pplData = App.ppl.toJSON();
+      App.thingsData = App.things.toJSON();
+    }
   });
 
   App.ShareBtn = Backbone.View.extend({
     el: $('#share'),
-    initialize: function () { this.listenTo(App.peopleView, 'render', this.render); },
+    initialize: function () {
+      this.listenTo(App.peopleView, 'render', this.render);
+    },
     render: function () { this.$el.attr('href', 'http://v.gd/create.php?format=simple&url=' + window.location); }
   });
 
@@ -112,10 +147,10 @@ $(function () {
       } catch (err) { console.error(err); }
     },
     updateHash: function () {
-      window.location.hash = '#' + JSON.stringify({ppl: App.ppl.toJSON(), things: App.things.toJSON()});
+      var json = JSON.stringify({ppl: App.ppl.toJSON(), things: App.things.toJSON()});
+      window.location.hash = '#' + json;
     }
   });
-
 
   App.thingsView = new App.ThingsView().render();
   App.peopleView = new App.PeopleView().render();
