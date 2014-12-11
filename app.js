@@ -132,7 +132,10 @@ $(function () {
     initialize: function () {
       this.listenTo(App.peopleView, 'render', this.render);
     },
-    render: function () { this.$el.attr('href', 'http://v.gd/create.php?format=simple&url=' + window.location); }
+    render: function () {
+      var url = window.encodeURIComponent(window.location);
+      this.$el.attr('href', 'http://v.gd/create.php?format=simple&url=' + url);
+    }
   });
 
   App.HashManager = Marionette.Controller.extend({
